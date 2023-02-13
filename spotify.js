@@ -1,5 +1,6 @@
 const request = require('request-promise');
 const dotenv = require('dotenv');
+const http = require('http');
 dotenv.config();
 
 
@@ -14,14 +15,26 @@ const options = {
     json: true
 };
 
-request(options)
-    .then(function (response) {
-        if (response.is_playing) {
-            console.log('Name: ' + response.item.name + '\nAlbum: ' + response.item.album.name);
-        } else {
-            console.log('Nothing is playing');
-        }
-    })
-    .catch(function (err) {
-        console.error(err);
-    });
+
+const server = http.createServer((req, res) => {
+
+
+
+    request(options)
+        .then(function (response) {
+            if (response.is_playing) {
+                res.end('Current song: ' + response.item.name);
+            } else {
+                res.end('Nothing is playing');
+            }
+        })
+        .catch(function (err) {
+            console.error(err);
+            res.end('An error occured');
+        });
+});
+
+server.listen(3000, () => {
+    console.log('Server is listening on port 3000');
+});
+
