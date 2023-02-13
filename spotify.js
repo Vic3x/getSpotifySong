@@ -32,24 +32,24 @@ const checkForUpdates = () => {
         });
 };
 
-
 const server = http.createServer((req, res) => {
     request(options)
         .then(function (response) {
             if (response.is_playing) {
                 currentSong = response.item.name;
-                res.end(`<html><head><meta http-equiv="refresh" content="5"></head><body>Current song: ${currentSong}</body></html>`);
+                res.end(`Current song: ${currentSong}`);
             } else {
-                res.end('<html><head><meta http-equiv="refresh" content="5"></head><body>Nothing is playing</body></html>');
+                res.end('Nothing is playing');
             }
         })
         .catch(function (err) {
             console.error(err);
-            res.end('<html><head><meta http-equiv="refresh" content="5"></head><body>An error occurred</body></html>');
+            res.end('An error occurred');
         });
 });
 
 server.listen(3000, () => {
-    console.log('Server is listening on port 3000');
+    console.log('Server listening on port 3000');
+    setInterval(checkForUpdates, 5000);
 });
 
