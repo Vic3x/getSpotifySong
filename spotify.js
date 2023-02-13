@@ -16,7 +16,7 @@ const options = {
 
 request(options)
     .then(function (response) {
-        if (response.actions.is_playing == true) {
+        if (response.is_playing) {
             console.log('Name: ' + response.item.name + '\nAlbum: ' + response.item.album.name);
         } else {
             console.log('Nothing is playing');
